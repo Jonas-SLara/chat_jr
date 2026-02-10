@@ -1,5 +1,6 @@
 package com.chat.demo.service;
 
+import java.time.LocalDateTime;
 import java.util.Optional;
 
 import org.springframework.security.core.userdetails.UserDetails;
@@ -29,4 +30,7 @@ public class UserDetailsAdapterService implements UserDetailsService{
         return new UserDetailsAdapter(u.get());
     }
     
+    public void updateLastActivity(String email){
+        userRepository.updateLatActivity(email, LocalDateTime.now());
+    }
 }

@@ -39,9 +39,6 @@ public class Users {
     @Column(name = "created")
     private LocalDateTime created;
 
-    @Column(name = "online")
-    private Boolean online;
-
-    @Column(name = "last_login")
-    private LocalDateTime lastLogin;
+    @Column(name = "last_activity")
+    private LocalDateTime lastActivity;
 }
