@@ -41,4 +41,7 @@ public class Users {
 
     @Column(name = "last_activity")
     private LocalDateTime lastActivity;
+
+    @Column(name = "enabled")
+    private Boolean enabled;
 }

@@ -13,6 +13,7 @@ import org.springframework.stereotype.Repository;
 import com.chat.demo.model.users.Users;
 
 import jakarta.transaction.Transactional;
+import jakarta.websocket.server.PathParam;
 
 @Repository
 public interface UserRepository extends JpaRepository<Users, UUID> {
@@ -24,4 +25,10 @@ public interface UserRepository extends JpaRepository<Users, UUID> {
     @Modifying
     @Query("UPDATE Users u SET u.lastActivity = :now where u.email = :email")
     public void updateLatActivity(@Param(value = "email") String email, @Param("now") LocalDateTime now);
+
+    @Query("SELECT COUNT(u) FROM Users u")
+    public long getTotalUsers();
+
+    @Query("SELECT SUM(CASE WHEN u.lastActivity >= :onlineSince THEN 1 ELSE 0 END) FROM Users u")
+    public long getTotalOnlineSince(@PathParam(value = "onlineSince") LocalDateTime onlineSince);
 }

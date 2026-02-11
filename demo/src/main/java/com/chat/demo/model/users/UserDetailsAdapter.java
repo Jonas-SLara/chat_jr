@@ -48,6 +48,6 @@ public final class UserDetailsAdapter implements UserDetails {
 
     @Override
     public boolean isEnabled() {
-        return true;
+        return usuario.getEnabled();
     }
 }
