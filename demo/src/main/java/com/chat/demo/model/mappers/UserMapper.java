@@ -13,6 +13,7 @@ public class UserMapper {
         .email(request.email())
         .name(request.name())
         .created(LocalDateTime.now())
+        .enabled(true)
         .build();
 
         return users;

@@ -2,7 +2,6 @@ package com.chat.demo.config;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -68,30 +67,19 @@ public class SecurityConfig {
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
 
-        String allowedOriginsValue = corsAllowedOrigins == null ? "" : corsAllowedOrigins.trim();
-        boolean allowAnyOrigin = allowedOriginsValue.isEmpty() || "*".equals(allowedOriginsValue);
-
-        List<String> origins;
-        if (allowAnyOrigin) {
-            origins = List.of("*");
-        } else {
-            origins = Arrays.stream(allowedOriginsValue.split(","))
-                    .map(String::trim)
-                    .filter(s -> !s.isEmpty())
-                    .collect(Collectors.toList());
-        }
+        List<String> origins = Arrays.stream(corsAllowedOrigins.split(","))
+                .map(String::trim)
+                .toList();
 
         CorsConfiguration configuration = new CorsConfiguration();
-        if (allowAnyOrigin) {
-            configuration.setAllowedOriginPatterns(origins); 
-            configuration.setAllowedOrigins(origins); 
-        }
-        configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS")); // inclui PATCH
+
+        configuration.setAllowedOrigins(origins);
+        configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"));
         configuration.setAllowedHeaders(List.of("*"));
-        configuration.setAllowCredentials(true); // necessário se o frontend envia cookies ou tokens via header
+        configuration.setAllowCredentials(true);
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        source.registerCorsConfiguration("/**", configuration); // aplica globalmente
+        source.registerCorsConfiguration("/**", configuration);
 
         return source;
     }

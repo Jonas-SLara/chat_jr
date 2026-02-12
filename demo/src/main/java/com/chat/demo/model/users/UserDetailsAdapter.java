@@ -1,6 +1,8 @@
 package com.chat.demo.model.users;
 
 import java.util.Collection;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -48,6 +50,11 @@ public final class UserDetailsAdapter implements UserDetails {
 
     @Override
     public boolean isEnabled() {
-        return usuario.getEnabled();
+        try {
+            return usuario.getEnabled();
+        } catch (Exception e) {
+            Logger.getLogger(UserDetailsAdapter.class.getName()).log(Level.WARNING, "getEnabled is Null");
+        }
+        return false;
     }
 }
