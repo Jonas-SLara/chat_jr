@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import type { LoginRequest, LoginResponse, UserRequest } from "../../types/auth";
+import type { LoginRequest, LoginResponse,} from "../../types/auth.types";
+import type { UserRequest } from "../../types/user.types";
 import { api } from "../../services/api";
 
 export default function Auth() {

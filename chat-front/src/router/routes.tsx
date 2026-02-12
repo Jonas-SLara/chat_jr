@@ -1,34 +1,26 @@
-import { lazy, type ReactNode, Suspense } from "react";
-import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
+import { lazy, Suspense } from "react";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import AuthLayout from "../layouts/AuthLayout";
+import AppLayout from "../layouts/AppLayout";
 
-const Auth = lazy(() => import('../pages/Auth'));
-const Dashboard = lazy(() => import('../pages/Dash'));
+const AuthPage = lazy(() => import('../pages/Auth'));
+const DashBoardPage = lazy(() => import('../pages/Dash'));
 
-function PrivateRoute({children}: {children: ReactNode}){
-    const token = localStorage.getItem("token");
-    if (!token) {
-        return <Navigate to="/" />;
-    }
-
-    return children;
-}
 
 export function AppRoutes() {
   return (
     <BrowserRouter>
-      <Suspense fallback={<div>Loading...</div>}>
+      <Suspense fallback={<div>Loading ...</div>}>
         <Routes>
-          <Route path="/" element={<Auth/>} />
-          <Route path="/register" element={<Dashboard/>} />
 
-          <Route
-            path="/dashboard"
-            element={
-              <PrivateRoute>
-                <Dashboard />
-              </PrivateRoute>
-            }
-          />
+          <Route element={<AuthLayout/>} path="/">
+            <Route index element={<AuthPage/>} />
+          </Route>
+
+          <Route element={<AppLayout/>} path="/app">
+            <Route index element={<DashBoardPage/>} />
+          </Route>
+
         </Routes>
       </Suspense>
     </BrowserRouter>
