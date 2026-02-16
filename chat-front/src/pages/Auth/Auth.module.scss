@@ -4,3 +4,14 @@
     @include page-background('/images/logo_chat.jpg', $secondary-bg)
 }
 
+.toglle_link{
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    color: white;
+    cursor: pointer;
+    font-weight: bold;
+    text-decoration: underline;
+    z-index: 10;
+}
+

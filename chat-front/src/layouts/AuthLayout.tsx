@@ -2,9 +2,9 @@ import { Navigate, Outlet } from "react-router-dom";
 import { useAuthContext } from "../context/AuthContext";
 
 export default function AuthLayout(){
-    const {isAuthenticated} = useAuthContext()
+    const { isAuth }= useAuthContext()
 
-    if(isAuthenticated()){
+    if(isAuth) {
         return <Navigate to="/app" replace />
     }
     return(

@@ -1,4 +1,4 @@
-import { createContext, useContext, useState, type ReactNode } from "react";
+import { createContext, useContext, useMemo, useState, type ReactNode } from "react";
 
 import type { UserResponse } from "../types/user.types";
 
@@ -9,7 +9,7 @@ interface AuthContextType{
     login: (token: string, expirationDate: Date) => void,
     logout: () => void,
     setUser: (user: UserResponse) => void;
-    isAuthenticated: () => boolean;
+    isAuth: boolean;
 };
 
 const TOKEN_KEY = import.meta.env.VITE_TOKEN_KEY;
@@ -33,17 +33,16 @@ export function AuthProvider({children}: {children: ReactNode}){
         return storedUser ? JSON.parse(storedUser) : null;
     });
 
-    
     const login = (token: string, data: Date): void => {
         localStorage.setItem(TOKEN_KEY, token);
-        localStorage.setItem(TOKEN_EXPIRATION_KEY, data.toISOString());
+        const dateObj = data instanceof Date ? data : new Date(data);
+        localStorage.setItem(TOKEN_EXPIRATION_KEY, dateObj.toISOString());
         setToken(token);
         setTokenExpiration(data);
     }
 
     const logout = (): void => {
-        localStorage.removeItem(TOKEN_KEY);
-        localStorage.removeItem(TOKEN_EXPIRATION_KEY);
+        localStorage.clear();
         setToken(null);
         setTokenExpiration(null);
         setUserState(null);
@@ -54,17 +53,17 @@ export function AuthProvider({children}: {children: ReactNode}){
         setUserState(user);
     }
 
-    function isAuthenticated(): boolean {
+    const isAuth = useMemo(()=>{
         if (!token || !tokenExpiration) return false;
-
         const now = new Date();
-        return now < tokenExpiration;
-    }
+        const isValid = now < new Date(tokenExpiration);
+        return isValid;
+    }, [token, tokenExpiration]);
 
     return (
         <AuthContext.Provider value={{
             token,
-            isAuthenticated,
+            isAuth,
             userAuthenticated: user,
             expirationDate: tokenExpiration,
             login,

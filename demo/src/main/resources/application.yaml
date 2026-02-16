@@ -29,6 +29,6 @@ cors:
 security:
   jwt:
     secret-key: ${JWT_SECRET:QxbLLjUM1t+RusKI1krTor2PWEat4nOCZeRkL1auXJU=}
-    expiration-time: ${EXPIRATION:9000000}
+    expiration-time: ${EXPIRATION:900000}
   
 

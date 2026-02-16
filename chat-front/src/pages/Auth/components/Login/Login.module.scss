@@ -4,6 +4,7 @@
     @include container($secondary-bg, 40%, 50vh, 16px, 16px);
     @include glass(1, 2, 10px, 16px);
     @include flex-center;
+    @include fadeIn(0.5s, 20px);
     flex-direction: column;
     position: relative;
     .form_title{
