@@ -3,7 +3,7 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import AuthLayout from "../layouts/AuthLayout";
 import AppLayout from "../layouts/AppLayout";
 
-const AuthPage = lazy(() => import('../pages/Auth'));
+const AuthPage = lazy(() => import('../pages/Auth/Auth'));
 const DashBoardPage = lazy(() => import('../pages/Dash'));
 
 

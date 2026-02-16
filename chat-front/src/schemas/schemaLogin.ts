@@ -5,7 +5,7 @@ export const schemaLogin = z.object({
     password: z.string().min(8)
         .regex(
             /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&.#_-])[A-Za-z\d@$!%*?&.#_-]{8,}$/,
-            'A senha deve conter letra maiúscula, minúscula, número e caractere especial'
+            'A senha deve conter letra maiúsculas, minúsculas, números e @#!*'
         )
 })
 

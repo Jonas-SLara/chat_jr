@@ -1,0 +1,27 @@
+@use '@/styles/index' as *;
+
+.form_container{
+    @include container($secondary-bg, 40%, 50vh, 16px, 16px);
+    @include glass(1, 2, 10px, 16px);
+    @include flex-center;
+    flex-direction: column;
+    position: relative;
+    .form_title{
+        color: $primary-text;
+    }
+    form{
+        @include form-login;
+        width: 60%;
+        .input_container{
+            @include input-container;
+        }
+        .btn_login{
+            @include btn_ok;
+        }
+    }
+
+}
+
+.span_box_input{
+    @include span_box_input;
+}

@@ -1,0 +1,6 @@
+@use '@/styles/index' as *;
+
+.auth_container{
+    @include page-background('/images/logo_chat.jpg', $secondary-bg)
+}
+

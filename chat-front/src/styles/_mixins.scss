@@ -1,0 +1,112 @@
+@use './variables' as *;
+
+@mixin flex-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+@mixin container($color1, $width, $height, $border-radius, $padding) {
+    background-color: $color1;
+    width: $width;
+    height: $height;
+    border-radius: $border-radius;
+    padding: $padding;
+}
+
+@mixin form-login {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 16px;
+    gap: 48px;
+}
+
+@mixin input-container {
+    display: flex;
+    width: 100%;
+    position: relative;
+    label{
+        flex-grow: 1;
+        color: $primary-text;
+        font-weight: 600;
+    }
+
+    input{
+        border: none;
+        border-bottom: solid 2px $primary-text;
+        color: $primary-text;
+        background-color: transparent;
+        flex-grow: 1;
+    }
+}
+
+@mixin btn_ok{
+    border: solid 2px $primary-text;
+    background-color: #1284ff;
+    color: $primary-text;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 8px;
+    font-size: 1.2rem;
+    min-width: 100px;
+    font-weight: 600;
+}
+
+@mixin span_box_input{
+    position: absolute;
+    top: 32px;
+    left: 0;
+    width: 100%;
+    font-size: 0.8rem;
+    color: $primary-text;
+    background-color: $secondary-bg;
+    padding: 2px;
+}
+
+//mix para a estrategia de definir como implementar o fundo na pagina
+@mixin page-background($image-url, $color: #ffffffaa) {
+  position: relative; 
+  width: 100%;
+  height: 100vh;
+  @include flex-center;
+  
+  background: url($image-url) no-repeat center center / cover fixed;
+
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0; 
+    background-color: $color;
+    z-index: 0;
+  }
+
+  & > * {
+    position: relative;
+    z-index: 1;
+  }
+}
+
+//mix para efeitos de vidro
+@mixin glass($z_index_back, $z_index_content, $blur_amount, $radius){
+  &::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        
+        background-color: rgba(255, 255, 255, 0.1); 
+        backdrop-filter: blur($blur_amount); 
+        
+        border-radius: $radius; 
+        z-index: $z_index_back; 
+    }
+
+    & > * {
+        position: relative;
+        z-index: $z_index_content; 
+    }
+}
+
