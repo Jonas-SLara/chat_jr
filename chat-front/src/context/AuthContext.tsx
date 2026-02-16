@@ -12,10 +12,9 @@ interface AuthContextType{
     isAuthenticated: () => boolean;
 };
 
-
-const TOKEN_KEY = "token_data";
-const TOKEN_EXPIRATION_KEY = "token_expiration_key";
-const USER_KEY = "user_data";
+const TOKEN_KEY = import.meta.env.VITE_TOKEN_KEY;
+const TOKEN_EXPIRATION_KEY = import.meta.env.VITE_TOKEN_EXPIRATION_KEY;
+const USER_KEY = import.meta.env.VITE_USER_KEY;
 
 const AuthContext = createContext<AuthContextType | null>(null);
 
@@ -34,7 +33,7 @@ export function AuthProvider({children}: {children: ReactNode}){
         return storedUser ? JSON.parse(storedUser) : null;
     });
 
-
+    
     const login = (token: string, data: Date): void => {
         localStorage.setItem(TOKEN_KEY, token);
         localStorage.setItem(TOKEN_EXPIRATION_KEY, data.toISOString());
@@ -56,7 +55,7 @@ export function AuthProvider({children}: {children: ReactNode}){
     }
 
     function isAuthenticated(): boolean {
-        if (!token || !tokenExpiration || !user) return false;
+        if (!token || !tokenExpiration) return false;
 
         const now = new Date();
         return now < tokenExpiration;
