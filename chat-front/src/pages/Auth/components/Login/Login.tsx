@@ -26,7 +26,6 @@ export default function Login() {
         mutationFn: authLogin,
         onSuccess: (data) => {
             login(data.token, data.expiration);
-            console.log('log de auth: ' + isAuth);
         },
         onError(error) {
             alert(error.cause + "\n" + error.message)

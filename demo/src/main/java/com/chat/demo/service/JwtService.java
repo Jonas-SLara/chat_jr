@@ -2,11 +2,15 @@ package com.chat.demo.service;
 
 import java.security.Key;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
+
+import com.chat.demo.model.users.UserDetailsAdapter;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
@@ -23,12 +27,24 @@ public class JwtService {
     private long expirationTime;
 
     //criar um token sem as clains extras
-    public String generateTokenDefault(UserDetails user){
-        return generateToken(Map.of(), user);
+    public String generateTokenDefault(UserDetailsAdapter user){
+        Map<String, Object> extraClains = new HashMap<>();
+
+        UUID uuid = user.getUuid();
+        extraClains.put("userId", uuid);
+
+        List<String> roles = user.getAuthorities()
+            .stream()
+            .map(c -> c.getAuthority())
+            .toList();
+
+        extraClains.put("roles", roles);
+
+        return generateToken(extraClains, user);
     }
 
     //criar um token contendo todas as clains
-    public String generateToken(Map<String, Object> clains, UserDetails user){
+    public String generateToken(Map<String, Object> clains, UserDetailsAdapter user){
         return Jwts.builder()
             .setClaims(clains)
             .setSubject(user.getUsername())
@@ -63,11 +79,20 @@ public class JwtService {
         return claims.getExpiration();
     }
 
+    public String getUserIdFromToken(String token) {
+        return extractClaims(token).get("userId", String.class);
+    }
+
+    @SuppressWarnings("unchecked")
+    public List<String> getRolesFromToken(String token) {
+        return extractClaims(token).get("roles", List.class);
+    }
+
     public boolean isTokenExpired(String token){
         return getExpirationFromToken(token).before(new Date());
     }
 
-    public boolean isValidToken(String token, UserDetails user){
+    public boolean isValidToken(String token, UserDetailsAdapter user){
         try {
             String username = getUserNameFromToken(token);
             return username.equals(user.getUsername()) && !isTokenExpired(token);  

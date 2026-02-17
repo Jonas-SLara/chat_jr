@@ -11,7 +11,7 @@ export default function Auth() {
     <main className={style.auth_container}>
       <div className={style.toglle_link} onClick={() => { setIsLogin(!isLogin) }}>
         <span>
-          {isLogin
+          {!isLogin
             ? "Já Tem Uma Conta? Fazer Login"
             : "Não Possuí Uma Conta: Fazer Uma"}
         </span>

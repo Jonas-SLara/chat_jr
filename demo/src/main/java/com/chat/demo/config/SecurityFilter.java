@@ -6,11 +6,11 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
+import com.chat.demo.model.users.UserDetailsAdapter;
 import com.chat.demo.service.JwtService;
 import com.chat.demo.service.UserDetailsAdapterService;
 
@@ -47,7 +47,7 @@ public class SecurityFilter extends OncePerRequestFilter {
             Authentication auth = SecurityContextHolder.getContext().getAuthentication();
             
             if(username != null && auth == null){
-                UserDetails user = userDetailsAdapterService.loadUserByUsername(username);
+                UserDetailsAdapter user = userDetailsAdapterService.loadUserByUsername(username);
                 
                 if(jwtService.isValidToken(jwt, user)){
                     UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(

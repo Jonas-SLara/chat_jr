@@ -1,6 +1,8 @@
 package com.chat.demo.model.users;
 
 import java.util.Collection;
+import java.util.Collections;
+import java.util.UUID;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -20,12 +22,16 @@ public final class UserDetailsAdapter implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return null;
+        return Collections.emptyList();
     }
 
     @Override
     public @Nullable String getPassword() {
         return usuario.getPassword();
+    }
+
+    public UUID getUuid(){
+        return usuario.getId();
     }
 
     @Override

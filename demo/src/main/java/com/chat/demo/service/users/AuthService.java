@@ -7,11 +7,11 @@ import java.util.logging.Logger;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import com.chat.demo.model.dto.request.LoginRequest;
 import com.chat.demo.model.dto.response.LoginResponse;
+import com.chat.demo.model.users.UserDetailsAdapter;
 import com.chat.demo.service.JwtService;
 import com.chat.demo.service.UserDetailsAdapterService;
 
@@ -38,7 +38,7 @@ public class AuthService {
             )
         );
 
-        UserDetails user = (UserDetails) auth.getPrincipal();
+        UserDetailsAdapter user = (UserDetailsAdapter) auth.getPrincipal();
         String token = jwtService.generateTokenDefault(user);
         Date expiration = jwtService.getExpirationFromToken(token);
 
