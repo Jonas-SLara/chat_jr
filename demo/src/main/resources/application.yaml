@@ -2,13 +2,13 @@ spring:
   application:
     name: my-chat-api
   datasource:
-    url: ${POSTGRES_URL:jdbc:postgresql://localhost:5432/chat}
-    username: ${POSTGRES_USERNAME:postgres}
-    password: ${POSTGRES_PASSWORD:postgres}
+    url: ${POSTGRES_URL}
+    username: ${POSTGRES_USER}
+    password: ${POSTGRES_PASSWORD}
 
   data:
     mongodb:
-      uri: ${MONGO_URI:mongodb://root:admin@localhost:27017/chat?authSource=admin}
+      uri: ${MONGO_URI}
 
   jpa:
     hibernate:
@@ -28,7 +28,7 @@ cors:
 
 security:
   jwt:
-    secret-key: ${JWT_SECRET:QxbLLjUM1t+RusKI1krTor2PWEat4nOCZeRkL1auXJU=}
+    secret-key: ${JWT_SECRET}
     expiration-time: ${EXPIRATION:900000}
   
 

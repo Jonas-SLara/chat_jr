@@ -7,6 +7,7 @@ export default defineConfig({
   plugins: [react()],
   server: {
     port: 8000,
+    host: true,
     strictPort: true,
   },
   //configurar alias para facilitar importações
