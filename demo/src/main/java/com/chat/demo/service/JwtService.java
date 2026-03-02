@@ -54,6 +54,19 @@ public class JwtService {
             .compact();
     }
 
+    public String generatePasswordResetToken(String email){
+        Map<String, Object> claims = new HashMap<>();
+        claims.put("purpose", "password_reset");
+
+        return Jwts.builder()
+        .setClaims(claims)
+        .setSubject(email)
+        .setIssuedAt(new Date(System.currentTimeMillis()))
+        .setExpiration(new Date(System.currentTimeMillis() + 900000))
+        .signWith(getSignInKey(), SignatureAlgorithm.HS256)
+        .compact();
+    }
+
     //decodifica a chave
     private Key getSignInKey(){
         byte[] key = Decoders.BASE64.decode(secretKey);
@@ -91,7 +104,7 @@ public class JwtService {
     public boolean isTokenExpired(String token){
         return getExpirationFromToken(token).before(new Date());
     }
-
+ 
     public boolean isValidToken(String token, UserDetailsAdapter user){
         try {
             String username = getUserNameFromToken(token);
@@ -100,4 +113,6 @@ public class JwtService {
             return false;
         }
     }
+
+
 }
