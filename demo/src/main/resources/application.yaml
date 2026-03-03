@@ -16,10 +16,10 @@ spring:
     show-sql: false
   
   mail:   
-    host: smtp.example.com
-    port: 587
-    username: ${USERNAME:my}
-    password: ${USERPASS:pass}
+    host: ${MAIL_HOST:sandbox.smtp.mailtrap.io}
+    port: ${SMTP_PORT:2525}
+    username: ${MAIL_USERNAME:*********}
+    password: ${MAIL_USERPASS:*********}
     properties:
       mail:
         smtp:

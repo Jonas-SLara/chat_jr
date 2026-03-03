@@ -1,13 +1,13 @@
 package com.chat.demo.service.users;
 
-import java.beans.Transient;
 import java.util.Date;
-import java.util.Optional;
+import java.util.NoSuchElementException;
 import java.util.Random;
 
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.chat.demo.exceptions.CodeException;
 import com.chat.demo.model.users.RecoveryCode;
 import com.chat.demo.model.users.Users;
 import com.chat.demo.repository.RecoveryCodeRepository;
@@ -45,19 +45,25 @@ public class GetRecoveryService {
     }
 
     public boolean validateCode(String email, String code) {
-        return recoveryCodeRepository.findByEmailAndCode(email, code).isPresent();
+        boolean isValid = recoveryCodeRepository.findByEmailAndCode(email, code).isPresent();
+        if (!isValid) {
+            throw new CodeException("Código: " + code + " Inválido ou expirado");
+        }
+        return true;
     }
 
     @Transactional
     public void resetPassword(String email, String code, String newPassword) {
         if(!validateCode(email, code)) {
-            throw new RuntimeException("Código invalido ou expirado");
+            throw new CodeException("Código: " + code + " Inválido ou expirado");
         }
 
-        Optional<Users> user = userRepository.findByEmail(email);
+        Users user = userRepository.findByEmail(email).orElseThrow(
+            () -> new NoSuchElementException("usuario nao encontrado")
+        );
 
-        user.get().setPassword(passwordEncoder.encode(newPassword));
-        userRepository.save(user.get());
+        user.setPassword(passwordEncoder.encode(newPassword));
+        userRepository.save(user);
 
         recoveryCodeRepository.deleteByEmail(email);
 

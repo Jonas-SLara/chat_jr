@@ -14,6 +14,7 @@ public class ResetEmailSender {
 
     public void sendRecoveryCode(String to, String code){
         SimpleMailMessage message = new SimpleMailMessage();
+        message.setFrom("suporte@chatjr.com");
         message.setTo(to);
         message.setSubject("Código de recuperação de Senha");
         message.setText("Seu Código de Verificação é: " + code + "\n"

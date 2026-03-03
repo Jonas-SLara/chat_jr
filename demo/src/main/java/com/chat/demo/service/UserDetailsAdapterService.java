@@ -23,7 +23,7 @@ public class UserDetailsAdapterService implements UserDetailsService{
     public UserDetailsAdapter loadUserByUsername(String username) throws UsernameNotFoundException {
         Optional<Users> u = userRepository.findByEmail(username);
         if(!u.isPresent()) {
-            throw new UsernameNotFoundException("Usuario não encontrado");
+            throw new UsernameNotFoundException("Usuario: " + username + " não encontrado");
         }
 
         return new UserDetailsAdapter(u.get());

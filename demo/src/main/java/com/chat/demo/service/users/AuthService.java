@@ -7,6 +7,7 @@ import java.util.logging.Logger;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.stereotype.Service;
 
 import com.chat.demo.model.dto.request.LoginRequest;
@@ -29,7 +30,7 @@ public class AuthService {
     private final UserDetailsAdapterService userDetailsAdapterService;
 
     @Transactional
-    public LoginResponse login(LoginRequest dto){
+    public LoginResponse login(LoginRequest dto) throws AuthenticationException{
 
         Authentication auth = authenticationManager.authenticate(
             new UsernamePasswordAuthenticationToken(
